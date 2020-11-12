@@ -1,0 +1,40 @@
+.Login {
+  display: flex;
+  height: 300px;
+  width: 300px;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background: deepskyblue;
+  font-size: 12pt;
+}
+
+.Login__user-name-input {
+  font-size: 11pt;
+}
+
+.Login__password-input {
+  font-size: 11pt;
+}
+
+.Login__ok-button {
+  background: #2575ff;
+  width: 150px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.Login__error-message {
+  color: snow;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  border-radius: 5px;
+  background: rgba(228, 17, 17, 1);
+}

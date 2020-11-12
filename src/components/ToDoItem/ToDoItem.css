@@ -1,0 +1,50 @@
+.ToDoItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 30px;
+    flex-shrink: 0;
+    font-size: 10pt;
+}
+
+.ToDoItem__container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ToDoItem__checkbox {
+    height: 15px;
+    width: 15px;
+    margin: 0 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.ToDoItem__title {
+    margin: 0;
+    display: flex;
+    flex-shrink: 0;
+    word-wrap: break-word;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.ToDoItem__title_checked {
+    font-style: italic;
+    text-decoration: line-through
+}
+
+.ToDoItem__removeMark {
+    opacity: 0;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    justify-self: end;
+}
+
+.ToDoItem:hover .ToDoItem__removeMark {
+    transition: opacity 0.4s;
+    opacity: 1;
+}

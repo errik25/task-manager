@@ -1,0 +1,9 @@
+.MyFooter {
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    background: #61dafb;
+}
