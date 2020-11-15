@@ -1,48 +1,63 @@
 .MyContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background: #d6dfff;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #d6dfff;
+  overflow-y: scroll;
 }
 
 .MyContent__container {
-    max-width: 400px;
-    height: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .MyContent__todoCard {
-    display: flex;
-    flex-direction: column;
-    background: bisque;
+  display: flex;
+  flex-direction: column;
+  background: bisque;
 }
 
 .MyContent__new-item {
-
 }
 
 .MyContent__new-item-input {
-    height: 30px;
-    box-shadow: none;
-    outline: none;
-    margin-left: 36px;
-    width: 200px;
-    font-size: 10pt;
-    background: none;
-    border: none;
-    box-sizing: border-box;
+  height: 30px;
+  box-shadow: none;
+  outline: none;
+  margin-left: 36px;
+  width: 200px;
+  font-size: 10pt;
+  background: none;
+  border: none;
+  box-sizing: border-box;
 }
 
 .MyContent__new-item-button {
-    background: dodgerblue;
-    cursor: pointer;
-    margin-top: 10px;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 160px;
-    height: 40px;
+  background: dodgerblue;
+  cursor: pointer;
+  margin-top: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 160px;
+  height: 40px;
+}
+
+.MyContent__popupTint {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.MyContent__edit {
+  display: flex;
+  flex-direction: column;
 }

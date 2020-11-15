@@ -38,7 +38,7 @@ class Login extends React.Component {
     return (
       <Card>
         <CardContent className={"Login"}>
-          {this.props.user.isLogged && <Redirect to="/profile" />}
+          {/* this.props.user.isLogged && <Redirect to="/profile" /> */} 
           {this.props.isFetching && <div>loading</div>}
           <div className="Login__user-name">
             <TextField

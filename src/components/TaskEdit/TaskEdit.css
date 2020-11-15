@@ -1,0 +1,12 @@
+.TaskEdit {
+}
+
+.TaskEdit__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.Tast_edit__buttons {
+  display: flex;
+  justify-content: center;
+}
