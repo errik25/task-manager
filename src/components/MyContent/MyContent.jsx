@@ -4,7 +4,6 @@ import "./MyContent.css";
 import WithAuth from "../WithAuth";
 import { connect } from "react-redux";
 import {
-  addItem,
   openTask,
   getTodoData,
   removeItem,
@@ -17,7 +16,7 @@ class MyContent extends React.Component {
     super();
     this.state = {
       time: new Date().toString(),
-      todoData: null
+      todoData: null,
     };
   }
 
@@ -66,28 +65,17 @@ class MyContent extends React.Component {
               {todoList}
               {this.props.openedTask && (
                 <div className="MyContent__popupTint">
-                  <TaskEdit openedTask={this.props.openedTask}/>
+                  <TaskEdit />
                 </div>
               )}
-              <input
-                type="text"
-                className={"MyContent__new-item-input"}
-                value={this.state.input}
-                onChange={this.handleInputChange}
-                onKeyPress={this.handleInputKeys}
-                placeholder={"Input new item"}
-              />
-              {this.state.input !== "" && (
-                <Button
-                  variant="text"
-                  size="small"
-                  onClick={() => {
-                    this.handleAddButton();
-                  }}
-                >
-                  add
-                </Button>
-              )}
+              <Button
+                size="medium"
+                onClick={() => {
+                  this.props.openTask({});
+                }}
+              >
+                Create a task
+              </Button>
             </div>
           )}
         </div>
@@ -98,10 +86,9 @@ class MyContent extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addItem: (title) => dispatch(addItem(title)),
     removeItem: (id) => dispatch(removeItem(id)),
     getTodoData: () => dispatch(getTodoData()),
-    openTask: (pressedItem) => dispatch(openTask(pressedItem)),
+    openTask: (pressedItem) => dispatch(openTask(pressedItem))
   };
 };
 

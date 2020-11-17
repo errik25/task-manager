@@ -8,6 +8,10 @@ export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
+export const REGISTER_REQUEST = "REGISTER_REQUEST";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAILURE = "REGISTER_FAILURE";
+
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
@@ -19,7 +23,7 @@ export function getUserData() {
     });
     axios({
       method: "GET",
-      url: `http://127.0.0.1:8081/user`,
+      url: `http://127.0.0.1:8081/profile`,
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -52,8 +56,6 @@ export function login(loginData) {
       data: loginData,
     })
       .then((response) => {
-        console.log("response");
-        console.log(response.data.error);
         if (response.data.error) {
           dispatch({
             type: LOGIN_FAILURE,
@@ -69,6 +71,39 @@ export function login(loginData) {
       .catch((err) =>
         dispatch({
           type: LOGIN_FAILURE,
+          payload: err,
+        })
+      );
+  };
+}
+
+export function register(userData) {
+  return (dispatch) => {
+    dispatch({
+      type: REGISTER_REQUEST,
+    });
+    axios({
+      method: "POST",
+      url: `http://127.0.0.1:8081/register`,
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      data: userData,
+    })
+      .then((response) => {
+        if (response.data.error) {
+          dispatch({
+            type: REGISTER_SUCCESS,
+            payload: response.data.message,
+          });
+        } else {
+          dispatch({
+            type: REGISTER_FAILURE,
+            payload: response,
+          });
+        }
+      })
+      .catch((err) =>
+        dispatch({
+          type: REG,
           payload: err,
         })
       );

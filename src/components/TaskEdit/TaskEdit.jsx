@@ -7,19 +7,19 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
-import { editTask, closeTask } from "../../actions/ToDoListActions";
+import { editTask, createTask, closeTask } from "../../actions/ToDoListActions";
 
 class TaskEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: props.openedTask.title,
-      status: props.openedTask.status,
-      priority: props.openedTask.priority,
-      description: props.openedTask.description,
-      creator: props.openedTask.creator,
-      responsible: props.openedTask.responsible,
-      completionDate: props.openedTask.completionDate,
+      isNewTask: !props.openedTask.createdAt,
+      title: props.openedTask.title || "",
+      status: props.openedTask.status || "todo",
+      priority: props.openedTask.priority || "medium",
+      description: props.openedTask.description || "",
+      responsible: props.openedTask.responsible || "",
+      completionDate: props.openedTask.completionDate || new Date(),
     };
   }
 
@@ -30,16 +30,16 @@ class TaskEdit extends React.Component {
   };
 
   handleAddButton = () => {
-    this.props.editTask({
+    const task = {
       ...this.props.openedTask,
       title: this.state.title,
       status: this.state.status,
       priority: this.state.priority,
       description: this.state.description,
-      creator: this.state.creator,
       responsible: this.state.responsible,
       completionDate: this.state.completionDate,
-    });
+    }
+    this.state.isNewTask ? this.props.createTask(task) : this.props.editTask(task);
   };
 
   handleInputChange = (event) => {
@@ -103,14 +103,6 @@ class TaskEdit extends React.Component {
           </FormControl>
 
           <TextField
-            label="creator"
-            defaultValue={this.state.creator}
-            className={"TaskEdit__creator-edit"}
-            type="text"
-            name={"creator"}
-            onChange={this.handleInputChange}
-          />
-          <TextField
             label="responsible"
             defaultValue={this.state.responsible}
             className={"TaskEdit__responsible-edit"}
@@ -135,8 +127,18 @@ class TaskEdit extends React.Component {
               onClick={() => {
                 this.handleAddButton();
               }}
+              disabled={
+                !(
+                  this.state.title &&
+                  this.state.status &&
+                  this.state.priority &&
+                  this.state.description &&
+                  this.state.responsible &&
+                  this.state.completionDate
+                )
+              }
             >
-              Save
+            {this.state.isNewTask ? 'Create' : 'Save'}
             </Button>
             <Button
               onClick={() => {
@@ -155,7 +157,8 @@ class TaskEdit extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     editTask: (item) => dispatch(editTask(item)),
-    closeTask: (item) => dispatch(closeTask())
+    createTask: (item) => dispatch(createTask(item)),
+    closeTask: (item) => dispatch(closeTask()),
   };
 };
 

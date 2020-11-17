@@ -12,7 +12,7 @@ import {
   ADD_ITEM_SUCCESS,
   ADD_ITEM_FAILURE,
   OPEN_TASK_POPUP,
-  CLOSE_TASK_POPUP
+  CLOSE_TASK_POPUP,
 } from "../actions/ToDoListActions";
 
 const initialState = {
@@ -101,7 +101,15 @@ export function todoListReducer(state = initialState, action) {
       return { ...state };
 
     case OPEN_TASK_POPUP:
-      return { ...state, openedTask: action.payload };
+      let isNewTask = false;
+      if (action.payload === {}) {
+        isNewTask = true;
+      }
+      return {
+        ...state,
+        openedTask: action.payload,
+        isNewTask
+      };
 
     case CLOSE_TASK_POPUP:
       return { ...state, openedTask: null };

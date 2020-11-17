@@ -17,10 +17,19 @@ function Profile(props) {
                     login - {props.user.login}
                 </div>
                 <div>
-                    firstName - {props.user.firstName}
+                    firstName - {props.user.name}
                 </div>
                 <div>
-                    lastName - {props.user.secondName}
+                    lastName - {props.user.surname}
+                </div>
+                <div>
+                    middlename - {props.user.middleName}
+                </div>
+                <div>
+                    manager - {props.user.manager}
+                </div>
+                <div>
+                    lastName - {props.user.surname}
                 </div>
             </div>
             {props.user.isLogged &&

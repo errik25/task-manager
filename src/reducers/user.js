@@ -15,7 +15,7 @@ const initialState = {
   login: "Аноним",
   isLogged: false,
   error: null,
-  isFetching: false,
+  isFetching: false
 };
 
 export function userReducer(state = initialState, action) {
@@ -29,7 +29,7 @@ export function userReducer(state = initialState, action) {
         ...state,
         error: null,
         isLogged: true,
-        isFetching: false,
+        isFetching: false
       };
 
     case LOGIN_FAILURE:
@@ -37,7 +37,7 @@ export function userReducer(state = initialState, action) {
       return {
         ...state,
         error: action.payload,
-        isFetching: false,
+        isFetching: false
       };
 
     case LOGOUT_REQUEST:
@@ -51,13 +51,13 @@ export function userReducer(state = initialState, action) {
         login: "",
         firstName: "",
         secondName: "",
-        isFetching: false,
+        isFetching: false
       };
 
     case LOGOUT_FAILURE:
       return {
         ...state,
-        isFetching: false,
+        isFetching: false
       };
 
     case GET_USER_DATA_REQUEST:
@@ -67,10 +67,13 @@ export function userReducer(state = initialState, action) {
       if (action.payload.data) {
         return {
           ...state,
+          id: action.payload.data.id,
           login: action.payload.data.login,
-          firstName: action.payload.data.firstName,
-          secondName: action.payload.data.secondName,
-          isLogged: true,
+          name: action.payload.data.firstName,
+          surname: action.payload.data.secondName,
+          middlename: action.payload.data.middlename,
+          manager: action.payload.data.manager,
+          isLogged: true
         };
       }
       return {
