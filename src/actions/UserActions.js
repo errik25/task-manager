@@ -66,6 +66,10 @@ export function login(loginData) {
             type: LOGIN_SUCCESS,
             payload: response,
           });
+          dispatch({
+            type: LOGIN_SUCCESS,
+            payload: response,
+          });
         }
       })
       .catch((err) =>

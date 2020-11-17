@@ -7,7 +7,6 @@ import WithAuth from "../WithAuth";
 function Profile(props) {
 
     useEffect(() => {
-        props.getUserData();
     }, [])
 
     return (
@@ -43,7 +42,6 @@ function Profile(props) {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUserData: () => dispatch(getUserData()),
         logout: () => dispatch(logout())
     }
 }

@@ -19,7 +19,9 @@ class TaskEdit extends React.Component {
       priority: props.openedTask.priority || "medium",
       description: props.openedTask.description || "",
       responsible: props.openedTask.responsible || "",
-      completionDate: props.openedTask.completionDate ? new Date(props.openedTask.completionDate).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10)
+      completionDate: props.openedTask.completionDate
+        ? new Date(props.openedTask.completionDate).toISOString().slice(0, 10)
+        : new Date().toISOString().slice(0, 10),
     };
   }
 
@@ -32,21 +34,15 @@ class TaskEdit extends React.Component {
       description: this.state.description,
       responsible: this.state.responsible,
       completionDate: this.state.completionDate,
-    }
-    this.state.isNewTask ? this.props.createTask(task) : this.props.editTask(task);
+    };
+    this.state.isNewTask
+      ? this.props.createTask(task)
+      : this.props.editTask(task);
   };
 
   handleInputChange = (event) => {
     const newState = {};
-    console.log('event.target.value');
-    console.log(event.target.value);
     newState[event.target.name] = event.target.value || "";
-    this.setState(newState);
-  };
-
-  handleChange = (event) => {
-    const newState = {};
-    newState["age"] = event.target.value;
     this.setState(newState);
   };
 
@@ -97,15 +93,23 @@ class TaskEdit extends React.Component {
               <MenuItem value={"cancalled"}>cancalled</MenuItem>
             </Select>
           </FormControl>
-
-          <TextField
-            label="responsible"
-            defaultValue={this.state.responsible}
-            className={"TaskEdit__responsible-edit"}
-            type="text"
-            name={"responsible"}
-            onChange={this.handleInputChange}
-          />
+          <FormControl>
+            <InputLabel>responsible</InputLabel>
+            <Select
+              label="responsible"
+              name="responsible"
+              value={this.state.responsible}
+              onChange={this.handleInputChange}
+            >
+              {this.props.user.executors.map((executor) => {
+                return (
+                  <MenuItem title={executor.login} value={executor.login} key={executor.login}>
+                    {executor.name} {executor.surname}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
           <TextField
             id="completionDate"
             label="completion date"
@@ -118,7 +122,7 @@ class TaskEdit extends React.Component {
             onChange={this.handleInputChange}
             className={"TaskEdit__completionDate-edit"}
           />
-        <div className="TaskEdit__buttons">
+          <div className="TaskEdit__buttons">
             <Button
               variant="contained"
               color="primary"
@@ -136,7 +140,7 @@ class TaskEdit extends React.Component {
                 )
               }
             >
-            {this.state.isNewTask ? 'Create' : 'Save'}
+              {this.state.isNewTask ? "Create" : "Save"}
             </Button>
             <Button
               onClick={() => {
@@ -163,6 +167,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (store) => {
   return {
     openedTask: store.todoList.openedTask,
+    user: store.user,
   };
 };
 

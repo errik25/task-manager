@@ -1,6 +1,6 @@
 import React from "react";
 import "./Login.css";
-import { login } from "../../actions/UserActions";
+import { login, getUserData } from "../../actions/UserActions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Input, Button, Card, CardContent, TextField } from "@material-ui/core";
@@ -38,7 +38,7 @@ class Login extends React.Component {
     return (
       <Card>
         <CardContent className={"Login"}>
-          {/* this.props.user.isLogged && <Redirect to="/profile" /> */} 
+          {/* this.props.user.isLogged && <Redirect to="/profile" /> */}
           {this.props.isFetching && <div>loading</div>}
           <div className="Login__user-name">
             <TextField
@@ -78,7 +78,7 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (loginData) => dispatch(login(loginData)),
+    login: (loginData) => dispatch(login(loginData))
   };
 };
 

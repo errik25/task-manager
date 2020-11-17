@@ -1,8 +1,5 @@
 import axios from "axios";
 import {
-  GET_USER_DATA_REQUEST,
-  GET_USER_DATA_SUCCESS,
-  GET_USER_DATA_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -24,12 +21,19 @@ export function userReducer(state = initialState, action) {
       return { ...state, isFetching: true };
 
     case LOGIN_SUCCESS:
-      localStorage.setItem("token", action.payload.data);
+      localStorage.setItem("token", action.payload.data.token);
       return {
         ...state,
         error: null,
         isLogged: true,
-        isFetching: false
+        isFetching: false,
+        id: action.payload.data.id,
+        login: action.payload.data.login,
+        name: action.payload.data.name,
+        surname: action.payload.data.surname,
+        middlename: action.payload.data.middlename,
+        manager: action.payload.data.manager,
+        executors: action.payload.data.executors
       };
 
     case LOGIN_FAILURE:
@@ -59,29 +63,6 @@ export function userReducer(state = initialState, action) {
         ...state,
         isFetching: false
       };
-
-    case GET_USER_DATA_REQUEST:
-      return { ...state, isFetching: true };
-
-    case GET_USER_DATA_SUCCESS:
-      if (action.payload.data) {
-        return {
-          ...state,
-          id: action.payload.data.id,
-          login: action.payload.data.login,
-          name: action.payload.data.firstName,
-          surname: action.payload.data.secondName,
-          middlename: action.payload.data.middlename,
-          manager: action.payload.data.manager,
-          isLogged: true
-        };
-      }
-      return {
-        ...state,
-      };
-
-    case GET_USER_DATA_FAILURE:
-      return { ...state, isFetching: false };
 
     default:
       return state;
