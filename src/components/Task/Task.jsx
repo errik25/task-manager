@@ -11,11 +11,11 @@ export default class Task extends React.Component {
     return (
       <div className={"Task"}>
         <Card>
-          <CardContent className="MyContent__todoCard">
+          <CardContent className={`Task__card ${new Date(this.props.item.completionDate).getTime() < new Date().getTime() ? 'Task__card_overdue' : ''}  ${this.props.item.status === 'done' ? 'Task__card_completed' : ''}   `}>
             <div className="Task__container">
               <div className="Task__title">{this.props.item.title}</div>
               <div className="Task__completion-date">
-                To {this.props.item.completionDate.toISOString().slice(0, 10)}
+                To {new Date(this.props.item.completionDate).toISOString().slice(0, 10)}
               </div>
               <div className="Task__responsible">
                 Responsible - {this.props.item.responsible}

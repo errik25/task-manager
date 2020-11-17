@@ -19,15 +19,9 @@ class TaskEdit extends React.Component {
       priority: props.openedTask.priority || "medium",
       description: props.openedTask.description || "",
       responsible: props.openedTask.responsible || "",
-      completionDate: props.openedTask.completionDate || new Date(),
+      completionDate: props.openedTask.completionDate ? new Date(props.openedTask.completionDate).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10)
     };
   }
-
-  handleInputChange = (event) => {
-    this.setState({
-      input: event.target.value,
-    });
-  };
 
   handleAddButton = () => {
     const task = {
@@ -44,6 +38,8 @@ class TaskEdit extends React.Component {
 
   handleInputChange = (event) => {
     const newState = {};
+    console.log('event.target.value');
+    console.log(event.target.value);
     newState[event.target.name] = event.target.value || "";
     this.setState(newState);
   };
@@ -113,14 +109,16 @@ class TaskEdit extends React.Component {
           <TextField
             id="completionDate"
             label="completion date"
+            name="completionDate"
             type="date"
             InputLabelProps={{
               shrink: true,
             }}
-            defaultValue={this.state.completionDate.toISOString().slice(0, 10)}
+            value={this.state.completionDate}
+            onChange={this.handleInputChange}
             className={"TaskEdit__completionDate-edit"}
           />
-          <div className="Tast_edit__buttons">
+        <div className="TaskEdit__buttons">
             <Button
               variant="contained"
               color="primary"

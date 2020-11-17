@@ -8,6 +8,14 @@
     font-size: 10pt;
 }
 
+.Task__card_completed {
+  background: green;
+}
+
+.Task__card_overdue {
+  background: orange;
+}
+
 .Task__container {
     display: flex;
     justify-content: flex-start;

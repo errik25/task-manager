@@ -16,7 +16,6 @@
 .MyContent__todoCard {
   display: flex;
   flex-direction: column;
-  background: bisque;
 }
 
 .MyContent__new-item {
