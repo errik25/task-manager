@@ -164,7 +164,6 @@ class TaskEdit extends React.Component {
           <div className="TaskEdit__updatedAt">
             last modified at{" "}
             {moment(this.props.openedTask.updatedAt).format("D.M.yy HH:MM")}
-            {console.log(moment(this.props.openedTask.updatedAt).format())}
           </div>
           <div className={"TastEdit__buttons"}>
             <Button
