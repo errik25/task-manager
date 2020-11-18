@@ -56,6 +56,7 @@ class TaskEdit extends React.Component {
             className={"TaskEdit__title-edit"}
             type="text"
             name={"title"}
+            disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
             onChange={this.handleInputChange}
           />
           <TextField
@@ -64,6 +65,7 @@ class TaskEdit extends React.Component {
             className={"TaskEdit__description-edit"}
             type="text"
             name={"description"}
+            disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
             onChange={this.handleInputChange}
           />
           <FormControl>
@@ -72,6 +74,7 @@ class TaskEdit extends React.Component {
               label="priority"
               name="priority"
               value={this.state.priority}
+              disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
               onChange={this.handleInputChange}
             >
               <MenuItem value={"low"}>low</MenuItem>
@@ -99,6 +102,7 @@ class TaskEdit extends React.Component {
               label="responsible"
               name="responsible"
               value={this.state.responsible}
+              disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
               onChange={this.handleInputChange}
             >
               {this.props.user.executors.map((executor) => {
@@ -119,6 +123,7 @@ class TaskEdit extends React.Component {
               shrink: true,
             }}
             value={this.state.completionDate}
+            disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
             onChange={this.handleInputChange}
             className={"TaskEdit__completionDate-edit"}
           />

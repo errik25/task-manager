@@ -42,8 +42,6 @@ export function editTask(task) {
     dispatch({
       type: EDIT_TASK_REQUEST,
     });
-    console.log('task in action cerator')
-    console.log(task)
     axios({
       method: "PUT",
       url: `http://127.0.0.1:8081/tasks/${task.id}`,
