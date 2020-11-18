@@ -52,16 +52,21 @@ export function userReducer(state = initialState, action) {
       return {
         ...state,
         isLogged: false,
-        login: "",
-        firstName: "",
-        secondName: "",
+        id: null,
+        login: 'Аноним',
+        name: null,
+        surname: null,
+        middlename: null,
+        manager: null,
+        executors: null,
         isFetching: false
       };
 
     case LOGOUT_FAILURE:
       return {
         ...state,
-        isFetching: false
+        isFetching: false,
+        isLogged: false
       };
 
     default:

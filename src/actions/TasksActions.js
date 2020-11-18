@@ -115,10 +115,10 @@ export function getTodoData() {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-      .then((data) => {
+      .then((response) => {
         dispatch({
           type: GET_TODO_DATA_SUCCESS,
-          payload: data.data,
+          payload: response,
         });
       })
       .catch((err) => {

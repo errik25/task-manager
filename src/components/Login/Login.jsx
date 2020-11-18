@@ -38,7 +38,7 @@ class Login extends React.Component {
     return (
       <Card>
         <CardContent className={"Login"}>
-          {/* this.props.user.isLogged && <Redirect to="/profile" /> */}
+          {this.props.user.isLogged && <Redirect to="/home" />}
           {this.props.isFetching && <div>loading</div>}
           <div className="Login__user-name">
             <TextField
@@ -68,7 +68,6 @@ class Login extends React.Component {
           </Button>
           {this.props.user.error &&
             <Alert severity="error">{this.props.user.error}</Alert>
-            // <div className="Login__error-message">error: {this.props.user.error}</div>
           }
         </CardContent>
       </Card>

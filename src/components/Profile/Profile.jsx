@@ -22,13 +22,10 @@ function Profile(props) {
                     lastName - {props.user.surname}
                 </div>
                 <div>
-                    middlename - {props.user.middleName}
+                    middlename - {props.user.middlename}
                 </div>
                 <div>
                     manager - {props.user.manager}
-                </div>
-                <div>
-                    lastName - {props.user.surname}
                 </div>
             </div>
             {props.user.isLogged &&

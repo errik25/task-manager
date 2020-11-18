@@ -13,16 +13,15 @@ import {
   ADD_ITEM_FAILURE,
   OPEN_TASK_POPUP,
   CLOSE_TASK_POPUP,
-} from "../actions/ToDoListActions";
+} from "../actions/TasksActions";
 
 const initialState = {
   list: [],
-  maxKey: 1,
   isFetching: false,
   openedTask: null,
 };
 
-export function todoListReducer(state = initialState, action) {
+export function tasksReducer(state = initialState, action) {
   let newList;
   switch (action.type) {
     case GET_TODO_DATA_REQUEST:
@@ -32,20 +31,15 @@ export function todoListReducer(state = initialState, action) {
       };
 
     case GET_TODO_DATA_SUCCESS:
-      let maxKey = 0;
-      const todoData = action.payload.map((item) => {
+      const todoData = action.payload.data.map((item) => {
         return {
           ...item,
-          completionDate: new Date(item.completionDate),
-          createdAt: new Date(item.createdAt),
-          updatedAt: new Date(item.updatedAt),
-          key: ++maxKey,
+          completionDate: new Date(item.completionDate).toISOString().slice(0, 10),
         };
       });
       return {
         ...state,
         list: todoData,
-        maxKey: maxKey,
         isFetching: false,
       };
 
@@ -61,12 +55,11 @@ export function todoListReducer(state = initialState, action) {
     case ADD_ITEM_SUCCESS:
       let list = [...state.list];
       let newItem = {
-        ...action.payload.item,
-        key: state.maxKey + 1,
+        ...action.payload.response.data,
         id: action.payload.response.data.id,
       };
       list.push(newItem);
-      return { ...state, list, maxKey: state.maxKey + 1 };
+      return { ...state, list };
 
     case ADD_ITEM_FAILURE:
       return { ...state };
@@ -76,7 +69,7 @@ export function todoListReducer(state = initialState, action) {
 
     case EDIT_TASK_SUCCESS: {
       let newItem = {
-        ...action.payload.item,
+        ...action.payload.response.data
       };
       const newList = state.list.map((item) => {
         if (item.id === newItem.id) {

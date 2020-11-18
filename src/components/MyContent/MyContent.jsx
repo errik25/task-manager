@@ -3,20 +3,20 @@ import Task from "../Task/Task";
 import "./MyContent.css";
 import WithAuth from "../WithAuth";
 import { connect } from "react-redux";
-import {
-  openTask,
-  getTodoData,
-  removeItem,
-} from "../../actions/ToDoListActions";
+import { openTask, getTodoData, removeItem } from "../../actions/TasksActions";
 import { Button, Card, CardContent, TextField } from "@material-ui/core";
 import TaskEdit from "../TaskEdit/TaskEdit";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 class MyContent extends React.Component {
   constructor() {
     super();
     this.state = {
       time: new Date().toString(),
-      todoData: null,
+      sortBy: 'updatedAt'
     };
   }
 
@@ -24,30 +24,35 @@ class MyContent extends React.Component {
     this.props.getTodoData();
   }
 
-  handleAddButton = () => {
-    if (this.state.input) {
-      const newItem = {
-        title: this.state.input,
-      };
-      this.props.addItem(newItem);
-      this.setState({
-        input: "",
-      });
-    }
+  handleInputChange = (event) => {
+    const newState = {};
+    newState[event.target.name] = event.target.value || "";
+    this.setState(newState);
   };
 
-  render() {
-    const { toDoList, removeItem, checkItem } = this.props;
+  sortTasks = (a, b) => {
+    switch(this.state.sortBy) {
+      case 'updatedAt':
+        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+      case 'competionDate':
+        return new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime();
+      case 'responsible':
+        return b.responsible.localeCompare(a.responsible)
+    }
+  }
 
-    const todoList =
-      toDoList &&
-      toDoList.map((item) => {
+  render() {
+    const { tasks, removeItem, checkItem, openTask } = this.props;
+    let sortedList = tasks.slice();
+    sortedList = sortedList.sort(this.sortTasks);
+    let sortedTasks =
+      sortedList.map((item) => {
         return (
           <Task
-            key={item.key}
+            key={item.id}
             item={item}
             editButtonHandler={() => {
-              this.props.openTask(item);
+              openTask(item);
             }}
             removeButtonHandler={() => {
               removeItem(item.id);
@@ -55,14 +60,28 @@ class MyContent extends React.Component {
           />
         );
       });
+
     return (
       <div className={"MyContent"}>
         <div className="MyContent__container">
-          {todoList.length === 0 ? (
+          <FormControl>
+            <InputLabel>sort</InputLabel>
+            <Select
+              label="sort"
+              name="sortBy"
+              value={this.state.sortBy}
+              onChange={this.handleInputChange}
+            >
+              <MenuItem value={"updatedAt"}>modified date</MenuItem>
+              <MenuItem value={"competionDate"}>completion date</MenuItem>
+              <MenuItem value={"responsible"}>responsible</MenuItem>
+            </Select>
+          </FormControl>
+          {tasks.length === 0 ? (
             "loading..."
           ) : (
             <div>
-              {todoList}
+              {sortedTasks}
               {this.props.openedTask && (
                 <div className="MyContent__popupTint">
                   <TaskEdit />
@@ -88,14 +107,14 @@ const mapDispatchToProps = (dispatch) => {
   return {
     removeItem: (id) => dispatch(removeItem(id)),
     getTodoData: () => dispatch(getTodoData()),
-    openTask: (pressedItem) => dispatch(openTask(pressedItem))
+    openTask: (pressedItem) => dispatch(openTask(pressedItem)),
   };
 };
 
 const mapStateToProps = (store) => {
   return {
-    toDoList: store.todoList.list,
-    openedTask: store.todoList.openedTask,
+    tasks: store.tasks.list,
+    openedTask: store.tasks.openedTask,
   };
 };
 

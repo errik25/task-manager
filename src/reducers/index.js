@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux'
-import { pageReducer } from './page'
 import { userReducer } from './user'
-import { todoListReducer } from './toDoList'
+import { tasksReducer } from './tasks'
 
 export const rootReducer = combineReducers({
-    page: pageReducer,
     user: userReducer,
-    todoList: todoListReducer
+    tasks: tasksReducer
 })

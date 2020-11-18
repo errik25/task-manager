@@ -1,4 +1,5 @@
 import React from "react";
+import moment from 'moment';
 import "./TaskEdit.css";
 import WithAuth from "../WithAuth";
 import { connect } from "react-redux";
@@ -7,7 +8,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
-import { editTask, createTask, closeTask } from "../../actions/ToDoListActions";
+import { editTask, createTask, closeTask } from "../../actions/TasksActions";
 
 class TaskEdit extends React.Component {
   constructor(props) {
@@ -56,7 +57,12 @@ class TaskEdit extends React.Component {
             className={"TaskEdit__title-edit"}
             type="text"
             name={"title"}
-            disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
+            disabled={
+              !(
+                this.props.openedTask.creator === this.props.user.login ||
+                this.state.isNewTask
+              )
+            }
             onChange={this.handleInputChange}
           />
           <TextField
@@ -65,7 +71,12 @@ class TaskEdit extends React.Component {
             className={"TaskEdit__description-edit"}
             type="text"
             name={"description"}
-            disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
+            disabled={
+              !(
+                this.props.openedTask.creator === this.props.user.login ||
+                this.state.isNewTask
+              )
+            }
             onChange={this.handleInputChange}
           />
           <FormControl>
@@ -74,7 +85,12 @@ class TaskEdit extends React.Component {
               label="priority"
               name="priority"
               value={this.state.priority}
-              disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
+              disabled={
+                !(
+                  this.props.openedTask.creator === this.props.user.login ||
+                  this.state.isNewTask
+                )
+              }
               onChange={this.handleInputChange}
             >
               <MenuItem value={"low"}>low</MenuItem>
@@ -102,12 +118,21 @@ class TaskEdit extends React.Component {
               label="responsible"
               name="responsible"
               value={this.state.responsible}
-              disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
+              disabled={
+                !(
+                  this.props.openedTask.creator === this.props.user.login ||
+                  this.state.isNewTask
+                )
+              }
               onChange={this.handleInputChange}
             >
               {this.props.user.executors.map((executor) => {
                 return (
-                  <MenuItem title={executor.login} value={executor.login} key={executor.login}>
+                  <MenuItem
+                    title={executor.login}
+                    value={executor.login}
+                    key={executor.login}
+                  >
                     {executor.name} {executor.surname}
                   </MenuItem>
                 );
@@ -123,10 +148,18 @@ class TaskEdit extends React.Component {
               shrink: true,
             }}
             value={this.state.completionDate}
-            disabled={!(this.props.openedTask.creator === this.props.user.login || this.state.isNewTask)}
+            disabled={
+              !(
+                this.props.openedTask.creator === this.props.user.login ||
+                this.state.isNewTask
+              )
+            }
             onChange={this.handleInputChange}
             className={"TaskEdit__completionDate-edit"}
           />
+          <div className="TaskEdit__updatedAt">
+            last modified at {moment(this.props.openedTask.updatedAt).format('D.mm.yy HH:MM') }
+          </div>
           <div className="TaskEdit__buttons">
             <Button
               variant="contained"
@@ -171,7 +204,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (store) => {
   return {
-    openedTask: store.todoList.openedTask,
+    openedTask: store.tasks.openedTask,
     user: store.user,
   };
 };
