@@ -1,5 +1,5 @@
 import React from "react";
-import moment from 'moment';
+import moment from "moment";
 import "./TaskEdit.css";
 import WithAuth from "../WithAuth";
 import { connect } from "react-redux";
@@ -68,8 +68,11 @@ class TaskEdit extends React.Component {
           <TextField
             label="description"
             defaultValue={this.state.description}
-            className={"TaskEdit__description-edit"}
+            className={"TaskEdit__input TaskEdit__description-edit"}
             type="text"
+            multiline
+            rows={2}
+            rowsMax={5}
             name={"description"}
             disabled={
               !(
@@ -79,7 +82,7 @@ class TaskEdit extends React.Component {
             }
             onChange={this.handleInputChange}
           />
-          <FormControl>
+          <FormControl className={"TaskEdit__input"}>
             <InputLabel>priority</InputLabel>
             <Select
               label="priority"
@@ -98,7 +101,7 @@ class TaskEdit extends React.Component {
               <MenuItem value={"high"}>high</MenuItem>
             </Select>
           </FormControl>
-          <FormControl>
+          <FormControl className={"TaskEdit__input"}>
             <InputLabel>status</InputLabel>
             <Select
               label="status"
@@ -112,7 +115,7 @@ class TaskEdit extends React.Component {
               <MenuItem value={"cancalled"}>cancalled</MenuItem>
             </Select>
           </FormControl>
-          <FormControl>
+          <FormControl className={"TaskEdit__input"}>
             <InputLabel>responsible</InputLabel>
             <Select
               label="responsible"
@@ -140,6 +143,7 @@ class TaskEdit extends React.Component {
             </Select>
           </FormControl>
           <TextField
+            className={"TaskEdit__input"}
             id="completionDate"
             label="completion date"
             name="completionDate"
@@ -158,9 +162,18 @@ class TaskEdit extends React.Component {
             className={"TaskEdit__completionDate-edit"}
           />
           <div className="TaskEdit__updatedAt">
-            last modified at {moment(this.props.openedTask.updatedAt).format('D.mm.yy HH:MM') }
+            last modified at{" "}
+            {moment(this.props.openedTask.updatedAt).format("D.M.yy HH:MM")}
+            {console.log(moment(this.props.openedTask.updatedAt).format())}
           </div>
-          <div className="TaskEdit__buttons">
+          <div className={"TastEdit__buttons"}>
+            <Button
+              onClick={() => {
+                this.props.closeTask();
+              }}
+            >
+              Cancel
+            </Button>
             <Button
               variant="contained"
               color="primary"
@@ -179,13 +192,6 @@ class TaskEdit extends React.Component {
               }
             >
               {this.state.isNewTask ? "Create" : "Save"}
-            </Button>
-            <Button
-              onClick={() => {
-                this.props.closeTask();
-              }}
-            >
-              Cancel
             </Button>
           </div>
         </CardContent>

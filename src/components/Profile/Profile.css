@@ -1,13 +1,9 @@
-.A {
-    display: flex;
-}
-
-.MyHeader__logout {
-    cursor: pointer;
-    background: #2575ff;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 25px;
+.Profile__logout {
+  cursor: pointer;
+  background: #2575ff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
 }

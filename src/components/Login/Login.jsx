@@ -4,7 +4,7 @@ import { login, getUserData } from "../../actions/UserActions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Input, Button, Card, CardContent, TextField } from "@material-ui/core";
-import Alert from '@material-ui/lab/Alert';
+import Alert from "@material-ui/lab/Alert";
 
 class Login extends React.Component {
   constructor() {
@@ -36,48 +36,50 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Card>
-        <CardContent className={"Login"}>
-          {this.props.user.isLogged && <Redirect to="/home" />}
-          {this.props.isFetching && <div>loading</div>}
-          <div className="Login__user-name">
-            <TextField
-              label="login"
-              className={"Login__user-name-input"}
-              name={"userName"}
-              onChange={this.handleInputChange}
-            />
-          </div>
-          <div className="Login__password">
-            <TextField
-              label="password"
-              className={"Login__password-input"}
-              type="password"
-              name={"password"}
-              onChange={this.handleInputChange}
-              onKeyPress={this.handleInputKeys}
-            />
-          </div>
-          <Button
-            className="Login__ok-button"
-            onClick={this.handleOkButton}
-            variant="contained"
-            color="primary"
-          >
-            Login
-          </Button>
-          {this.props.user.error &&
-            <Alert severity="error">{this.props.user.error}</Alert>
-          }
-        </CardContent>
-      </Card>
+      <div className={"Login"}>
+        <Card>
+          <CardContent className={"Login__container"}>
+            {this.props.user.isLogged && <Redirect to="/home" />}
+            {this.props.isFetching && <div>loading</div>}
+            <div className="Login__user-name">
+              <TextField
+                label="login"
+                className={"Login__user-name-input"}
+                name={"userName"}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="Login__password">
+              <TextField
+                label="password"
+                className={"Login__password-input"}
+                type="password"
+                name={"password"}
+                onChange={this.handleInputChange}
+                onKeyPress={this.handleInputKeys}
+              />
+            </div>
+            <Button
+              className="Login__ok-button"
+              onClick={this.handleOkButton}
+              variant="contained"
+              color="primary"
+            >
+              Login
+            </Button>
+            {this.props.user.error && (
+              <Alert severity="error">{this.props.user.error}</Alert>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (loginData) => dispatch(login(loginData))
+    login: (loginData) => dispatch(login(loginData)),
   };
 };
 

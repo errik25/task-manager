@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import Task from "../Task/Task";
 import "./MyContent.css";
 import WithAuth from "../WithAuth";
@@ -16,7 +17,7 @@ class MyContent extends React.Component {
     super();
     this.state = {
       time: new Date().toString(),
-      sortBy: 'updatedAt'
+      sortBy: "updatedAt",
     };
   }
 
@@ -31,22 +32,26 @@ class MyContent extends React.Component {
   };
 
   sortTasks = (a, b) => {
-    switch(this.state.sortBy) {
-      case 'updatedAt':
-        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-      case 'competionDate':
-        return new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime();
-      case 'responsible':
-        return b.responsible.localeCompare(a.responsible)
+    switch (this.state.sortBy) {
+      case "updatedAt":
+        return (
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        );
+      case "competionDate":
+        return (
+          new Date(b.completionDate).getTime() -
+          new Date(a.completionDate).getTime()
+        );
+      case "responsible":
+        return b.responsible.localeCompare(a.responsible);
     }
-  }
+  };
 
   render() {
     const { tasks, removeItem, checkItem, openTask } = this.props;
-    let sortedList = tasks.slice();
-    sortedList = sortedList.sort(this.sortTasks);
-    let sortedTasks =
-      sortedList.map((item) => {
+
+    const taskLayout = (list) => {
+      return list.map((item) => {
         return (
           <Task
             key={item.id}
@@ -60,42 +65,88 @@ class MyContent extends React.Component {
           />
         );
       });
+    };
+
+    let sortedList = tasks.slice();
+    sortedList = sortedList.sort(this.sortTasks);
+    let sortedTasks = taskLayout(sortedList);
+
+    let overdueTask = sortedList.filter((item) => {
+      const daysDiff = moment(item.completionDate).diff(moment(), "days");
+      return daysDiff < 0;
+    });
+    overdueTask = taskLayout(overdueTask);
+
+    let tasksForToday = sortedList.filter((item) => {
+      const daysDiff = moment(item.completionDate).diff(moment(), "days");
+      return daysDiff === 0;
+    });
+    tasksForToday = taskLayout(tasksForToday);
+
+    let tasksForWeek = sortedList.filter((item) => {
+      const daysDiff = moment(item.completionDate).diff(moment(), "days");
+      return daysDiff > 0 && daysDiff < 7;
+    });
+    tasksForWeek = taskLayout(tasksForWeek);
+
+    let restTasks = sortedList.filter((item) => {
+      const daysDiff = moment(item.completionDate).diff(moment(), "days");
+      return daysDiff > 7;
+    });
+    restTasks = taskLayout(restTasks);
 
     return (
       <div className={"MyContent"}>
-        <div className="MyContent__container">
-          <FormControl>
-            <InputLabel>sort</InputLabel>
-            <Select
-              label="sort"
-              name="sortBy"
-              value={this.state.sortBy}
-              onChange={this.handleInputChange}
+        <div className={"MyContent__container"}>
+          <div className={"MyContent__tools"}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="medium"
+              onClick={() => {
+                this.props.openTask({});
+              }}
             >
-              <MenuItem value={"updatedAt"}>modified date</MenuItem>
-              <MenuItem value={"competionDate"}>completion date</MenuItem>
-              <MenuItem value={"responsible"}>responsible</MenuItem>
-            </Select>
-          </FormControl>
+              Create a task
+            </Button>
+            <FormControl>
+              <InputLabel>sort</InputLabel>
+              <Select
+                label="sort"
+                name="sortBy"
+                value={this.state.sortBy}
+                onChange={this.handleInputChange}
+              >
+                <MenuItem value={"updatedAt"}>modified date</MenuItem>
+                <MenuItem value={"completionDate"}>completion date</MenuItem>
+                <MenuItem value={"responsible"}>responsible</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
           {tasks.length === 0 ? (
             "loading..."
           ) : (
-            <div>
-              {sortedTasks}
+            <React.Fragment>
+              {this.state.sortBy === "completionDate" ? (
+                <div className={"MyContent__groups"}>
+                  overdue
+                  <div className={"MyContent__tasks"}>{overdueTask}</div>
+                  for today
+                  <div className={"MyContent__tasks"}>{tasksForToday}</div>
+                  for the week
+                  <div className={"MyContent__tasks"}>{tasksForWeek}</div>
+                  rest
+                  <div className={"MyContent__tasks"}>{restTasks}</div>
+                </div>
+              ) : (
+                <div className={"MyContent__tasks"}>{sortedTasks}</div>
+              )}
               {this.props.openedTask && (
                 <div className="MyContent__popupTint">
                   <TaskEdit />
                 </div>
               )}
-              <Button
-                size="medium"
-                onClick={() => {
-                  this.props.openTask({});
-                }}
-              >
-                Create a task
-              </Button>
-            </div>
+            </React.Fragment>
           )}
         </div>
       </div>

@@ -2,10 +2,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
     min-height: 30px;
     flex-shrink: 0;
     font-size: 10pt;
+    margin: 5px;
+    cursor: pointer;
+    position: relative;
 }
 
 .Task__card_completed {
@@ -51,7 +53,9 @@
     height: 20px;
     width: 20px;
     cursor: pointer;
-    justify-self: end;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
 }
 
 .Task:hover .Task__removeMark {

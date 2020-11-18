@@ -1,4 +1,5 @@
 .TaskEdit {
+  width: 400px;
 }
 
 .TaskEdit__container {
@@ -6,9 +7,13 @@
   flex-direction: column;
 }
 
-.Tast_edit__buttons {
+.TaskEdit .TaskEdit__input {
+  margin-bottom: 10px;
+}
+
+.TastEdit__buttons {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .TaskEdit__updatedAt {
