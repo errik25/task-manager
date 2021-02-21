@@ -20,26 +20,14 @@ function About() {
     ctx.lineJoin = 'round';
     ctx.lineWidth = 5;
     ctx.lineCap = 'round';
-
-    
-
-    // for (let i = 0; i < imageData.data.length; i += 4) {
-    //   // Modify pixel data
-    //   imageData.data[i + 0] = 200;  // R value
-    //   imageData.data[i + 1] = 0;    // G value
-    //   imageData.data[i + 2] = 0;  // B value
-    //   imageData.data[i + 3] = 0;  // A value
-    // }
-
-    // Draw image data to the canvas
   };
 
   const drawPixel = ({x: cx, y: cy}) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    // const imageData = ctx.createImageData(800, 600);
     let w = 800;
     let h = 600;
+    // const imageData = ctx.createImageData(800, 600);
     const imageData = ctx.getImageData(0, 0, w, h);
     for (let i = 0, x = 0, y = 0; i < imageData.data.length; i += 4, x ++) {
       
@@ -49,25 +37,12 @@ function About() {
       }
         
       if ((y > cy - 30 && y < cy + 30) && (x > cx - 30 && x < cx + 30))  {
-        imageData.data[i + 0] = 255;  // A value
-        imageData.data[i + 1] = 25;  // A value
-        imageData.data[i + 2] = 25;  // A value
-        imageData.data[i + 3] = 255;  // A value 
+        imageData.data[i + 0] = 255;
+        imageData.data[i + 1] = 25;
+        imageData.data[i + 2] = 25;
+        imageData.data[i + 3] = 255;
       }
-      // else {
-      //   imageData.data[i + 0] = 34;  // R value
-      //   imageData.data[i + 1] = 0;    // G value
-      //   imageData.data[i + 2] = 80;  // B value
-      //   imageData.data[i + 3] = 255;  // A value
-      // }
     }
-    
-
-    // imageData.data[i + 0] = 190;  // R value
-    // imageData.data[i + 1] = 0;    // G value
-    // imageData.data[i + 2] = 210;  // B value
-    // imageData.data[i + 3] = 255; 
-
     ctx.putImageData(imageData, 0, 0);
   }
 
