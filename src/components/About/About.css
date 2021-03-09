@@ -1,3 +1,33 @@
 .About {
     display: flex;
+    flex-direction: column;
+}
+
+.about__buttons {
+    display: flex;
+}
+
+.about__buttons>* {
+    margin: 0 5px;
+    user-select: none;
+}
+
+.about__clearAll {
+    cursor: pointer;
+    height: 25px;
+    background: rgb(65, 75, 160);
+    padding: 5px 10px;
+    font-size: 19px;
+    margin: 30px;
+    color: #fff;
+}
+
+.about__undo {
+    cursor: pointer;
+    height: 25px;
+    background: rgb(65, 75, 160);
+    padding: 5px 10px;
+    font-size: 19px;
+    margin: 30px;
+    color: #fff;
 }
