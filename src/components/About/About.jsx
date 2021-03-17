@@ -2,15 +2,20 @@ import './About.css';
 import React, {useState, useEffect, useRef} from 'react';
 
 function About() {
-  const [mouseDown, setMouseDown] = useState(false);
-  const [cursorPos, setCursorPos] = useState(null);
-  const [prevCursorPos, setPrevCursorPos] = useState(null);
-  const [mouseDownPosition, setMouseDownPosition] = useState({x: 0, y: 0});
-  const [savedImages, setSavedImages] = useState([]);
-  const [redoImages, setRedoImages] = useState([]);
-  const [canvas, setCanvas] = useState({width: 800, height: 600})
+  const stateRef = useRef({});
   const canvasRef = useRef(null);
+  const [canvasSize, setCanvasSize] = useState({width: 800, height: 600})
 
+  useEffect(() => {
+    let state = stateRef.current;
+    state.mouseDown = false;
+    state.cursorPos = null;
+    state.prevCursorPo = null;
+    state.mouseDownPosition = {x: 0, y: 0};
+    state.savedImages = [];
+    state.redoImages = [];
+  }, [])
+  
   const draw = () => {
     const ctx = canvasRef.current.getContext('2d');
     ctx.fillStyle = '#33a935';
@@ -24,38 +29,46 @@ function About() {
   };
 
   const saveCurrentToRedoStack = (ctx) => {  
-    const currentImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    setRedoImages(prev => [...prev, currentImage])
+    let state = stateRef.current;
+    const currentImage = ctx.getImageData(0, 0, canvasSize.width, canvasSize.height);
+    state.redoImages.push(currentImage)
   }
 
   const saveCurrentToUndoStack = (ctx) => {
-    const currentImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    setSavedImages(prev => [...prev, currentImage])
+    let state = stateRef.current;
+    const currentImage = ctx.getImageData(0, 0, canvasSize.width, canvasSize.height);
+    state.savedImages.push(currentImage)
   }
 
   const applyPrevImage = (ctx) => {
-    const prevImage = savedImages[savedImages.length - 1];
+    let state = stateRef.current;
+    const prevImage = state.savedImages[state.savedImages.length - 1];
     ctx.putImageData(prevImage, 0, 0);
   }
 
   const applyNextImage = (ctx) => {
-    const nextImage = redoImages[redoImages.length - 1];
+    let state = stateRef.current;
+    const nextImage = state.redoImages[state.redoImages.length - 1];
     ctx.putImageData(nextImage, 0, 0);
   }
 
   const popPrevStack = () => {
-    setSavedImages(savedImages.slice(0, savedImages.length - 1));
+    let state = stateRef.current;
+    state.savedImages.pop();
   } 
 
   const popNextStack = () => {
-    setRedoImages(redoImages.slice(0, redoImages.length - 1));
+    let state = stateRef.current;
+    state.redoImages.pop();
   }
 
   const clearNextStack = () => {
-    setRedoImages([]);
+    let state = stateRef.current;
+    state.redoImages = [];
   }
 
   const drawOnMousePos = ({x: cx, y: cy}) => {
+    let state = stateRef.current;
     const ctx = canvasRef.current.getContext('2d');
 
     ctx.fillStyle = '#a4349f';
@@ -65,27 +78,24 @@ function About() {
     ctx.lineCap = 'round';
 
     ctx.beginPath();
-    ctx.moveTo(prevCursorPos.x, prevCursorPos.y);
-    ctx.lineTo(cursorPos.x, cursorPos.y);
+    ctx.moveTo(state.prevCursorPos.x, state.prevCursorPos.y);
+    ctx.lineTo(state.cursorPos.x, state.cursorPos.y);
     ctx.stroke()
     clearNextStack()
   }
 
   useEffect(() => {
-    console.log('mounted')
-    clearAll();
+    let state = stateRef.current;
+    draw()
     window.addEventListener('mouseup', (e) => {
-      setMouseDown(false);
+      state.mouseDown = false;
     })
-    setRedoImages([]);
+    state.redoImages = [];
   }, [])
 
-  const clearAll = () => {
-    draw()
-  }
-
   const undo = () => {
-    if (savedImages.length) {
+    let state = stateRef.current;
+    if (state.savedImages.length) {
       const ctx = canvasRef.current.getContext('2d');
       saveCurrentToRedoStack(ctx)
       applyPrevImage(ctx)
@@ -94,7 +104,8 @@ function About() {
   }
 
   const redo = () => {
-    if (redoImages.length) {
+    let state = stateRef.current;
+    if (state.redoImages.length) {
       const ctx = canvasRef.current.getContext('2d'); 
 
       saveCurrentToUndoStack(ctx);
@@ -102,12 +113,6 @@ function About() {
       popNextStack();
     }
   }
-  
-  useEffect(() => {
-    if (mouseDown) {
-      drawOnMousePos(cursorPos)
-    }
-  }, [cursorPos])
 
   const getCursorPos = (e) => {
     return {x: event.layerX, y: event.layerY};
@@ -118,21 +123,26 @@ function About() {
   }
 
   const mouseMove = (e) => {
+    let state = stateRef.current;
     const {x, y} = getCursorPos(e)
-    setPrevCursorPos(cursorPos);
-    setCursorPos({x, y});
+    state.prevCursorPos = state.cursorPos;
+    state.cursorPos = {x, y};
+    if (state.mouseDown) {
+      drawOnMousePos(state.cursorPos)
+    }
   }
 
   const mouseDownHandler = (e) => {
+    let state = stateRef.current;
     const ctx = canvasRef.current.getContext('2d');
     saveCurrentToUndoStack(ctx)
-    setMouseDown(true)
+    state.mouseDown = true;
   }
 
   return (
     <div className="about">
       <div className="about__buttons">
-        <div className="about__clearAll" onClick={clearAll}>
+        <div className="about__clearAll" onClick={draw}>
           clear all
         </div>
         <div className="about__undo" onClick={undo}>
@@ -147,8 +157,8 @@ function About() {
         onClick={clickHandler}
         onMouseMove={mouseMove}
         onMouseDown={mouseDownHandler}
-        width={canvas.width}
-        height={canvas.height}
+        width={canvasSize.width}
+        height={canvasSize.height}
         ref={canvasRef}
         style={{border: '1px solid black'}}
       />
