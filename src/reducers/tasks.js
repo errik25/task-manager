@@ -13,7 +13,7 @@ import {
   ADD_ITEM_FAILURE,
   OPEN_TASK_POPUP,
   CLOSE_TASK_POPUP,
-} from "../actions/TasksActions";
+} from '../actions/TasksActions';
 
 const initialState = {
   list: [],
@@ -31,12 +31,10 @@ export function tasksReducer(state = initialState, action) {
       };
 
     case GET_TODO_DATA_SUCCESS:
-      const todoData = action.payload.data.map((item) => {
-        return {
-          ...item,
-          completionDate: new Date(item.completionDate).toISOString().slice(0, 10),
-        };
-      });
+      const todoData = action.payload.data.map(item => ({
+        ...item,
+        completionDate: new Date(item.completionDate).toISOString().slice(0, 10),
+      }));
       return {
         ...state,
         list: todoData,
@@ -53,8 +51,8 @@ export function tasksReducer(state = initialState, action) {
       return { ...state };
 
     case ADD_ITEM_SUCCESS:
-      let list = [...state.list];
-      let newItem = {
+      const list = [...state.list];
+      const newItem = {
         ...action.payload.response.data,
         id: action.payload.response.data.id,
       };
@@ -68,10 +66,10 @@ export function tasksReducer(state = initialState, action) {
       return { ...state };
 
     case EDIT_TASK_SUCCESS: {
-      let newItem = {
-        ...action.payload.response.data
+      const newItem = {
+        ...action.payload.response.data,
       };
-      const newList = state.list.map((item) => {
+      const newList = state.list.map(item => {
         if (item.id === newItem.id) {
           item = newItem;
         }
@@ -87,7 +85,7 @@ export function tasksReducer(state = initialState, action) {
       return { ...state };
 
     case REMOVE_ITEM_SUCCESS:
-      newList = state.list.filter((item) => item.id !== action.payload);
+      newList = state.list.filter(item => item.id !== action.payload);
       return { ...state, list: newList };
 
     case REMOVE_ITEM_FAILURE:
@@ -101,7 +99,7 @@ export function tasksReducer(state = initialState, action) {
       return {
         ...state,
         openedTask: action.payload,
-        isNewTask
+        isNewTask,
       };
 
     case CLOSE_TASK_POPUP:

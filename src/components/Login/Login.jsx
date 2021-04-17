@@ -1,23 +1,23 @@
-import React from "react";
-import "./Login.css";
-import { login, getUserData } from "../../actions/UserActions";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { Input, Button, Card, CardContent, TextField } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
+import React from 'react';
+import './Login.css';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { Input, Button, Card, CardContent, TextField } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+import { login, getUserData } from '../../actions/UserActions';
 
 class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      userName: "",
-      password: "",
+      userName: '',
+      password: '',
     };
   }
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     const newState = {};
-    newState[event.target.name] = event.target.value || "";
+    newState[event.target.name] = event.target.value || '';
     this.setState(newState);
   };
 
@@ -28,33 +28,33 @@ class Login extends React.Component {
     });
   };
 
-  handleInputKeys = (event) => {
-    if (event.key === "Enter") {
+  handleInputKeys = event => {
+    if (event.key === 'Enter') {
       this.handleOkButton();
     }
   };
 
   render() {
     return (
-      <div className={"Login"}>
+      <div className="Login">
         <Card>
-          <CardContent className={"Login__container"}>
+          <CardContent className="Login__container">
             {this.props.user.isLogged && <Redirect to="/home" />}
             {this.props.isFetching && <div>loading</div>}
             <div className="Login__user-name">
               <TextField
                 label="login"
-                className={"Login__user-name-input"}
-                name={"userName"}
+                className="Login__user-name-input"
+                name="userName"
                 onChange={this.handleInputChange}
               />
             </div>
             <div className="Login__password">
               <TextField
                 label="password"
-                className={"Login__password-input"}
+                className="Login__password-input"
                 type="password"
-                name={"password"}
+                name="password"
                 onChange={this.handleInputChange}
                 onKeyPress={this.handleInputKeys}
               />
@@ -77,17 +77,13 @@ class Login extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login: (loginData) => dispatch(login(loginData)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  login: loginData => dispatch(login(loginData)),
+});
 
-const mapStateToProps = (store) => {
-  return {
-    isFetching: store.isFetching,
-    user: store.user,
-  };
-};
+const mapStateToProps = store => ({
+  isFetching: store.isFetching,
+  user: store.user,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

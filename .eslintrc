@@ -1,0 +1,151 @@
+{
+  "extends": ["eslint-config-airbnb"],
+  "parser": "babel-eslint",
+  "root": true,
+  "plugins": ["react", "react-hooks"],
+  "env": {
+    "browser": true,
+    "jquery": true,
+    "node": true,
+    "es6": true,
+    "mocha": true,
+    "phantomjs": true,
+  },
+  "globals": {
+    "__DEV__": true,
+    "__SERVER__": true
+  },
+  "rules": {
+    "global-require": 0,
+    "camelcase": ["error", {
+      "allow": ["^UNSAFE_"],
+      "properties": "never"
+    }],
+    "no-useless-escape": 0,
+    "no-useless-rename": 0,
+    "import/no-extraneous-dependencies": 0,
+    "no-param-reassign": 0,
+    "no-plusplus": 0,
+    "no-bitwise": 0,
+    "react/jsx-filename-extension": 0,
+    "no-mixed-operators": 0,
+    "no-unused-expressions": 0,
+    "react/no-danger": 0,
+    "no-cond-assign": 0,
+    "no-nested-ternary": 0,
+    "function-paren-newline": 0,
+    "prefer-promise-reject-errors": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/iframe-has-title": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "jsx-a11y/control-has-associated-label": 0,
+    "react/forbid-prop-types": 0,
+    "react/require-default-props": 0,
+    "react/no-array-index-key": 0,
+    "react/no-unused-prop-types": 0,
+    "react/no-unused-state": 0,
+    "react/prefer-stateless-function": 0,
+    "no-restricted-globals": 0,
+    "no-return-assign": 0,
+    "react/jsx-no-bind": 0,
+    "no-underscore-dangle": 0,
+    "no-multi-assign": 0,
+    "dot-location": [2, "property"],
+    "no-extra-parens": [2, "functions"],
+    "no-unused-vars": 2,
+    "no-console": ["error", { "allow": ["warn", "error", "info"] }],
+    "arrow-parens": ["error", "as-needed"],
+    "object-curly-newline": ["error", { "minProperties": 8, "consistent": true }],
+    "no-invalid-this": 0,
+    "operator-linebreak": 0,
+    "import/no-cycle": [2, { "maxDepth": 1 }],
+    "implicit-arrow-linebreak": 0,
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "no-else-return": 0,
+    "import/named": 0,
+    "yoda": 2,
+    "no-var": 2,
+    "quote-props": [2, "as-needed", { "keywords": false, "unnecessary": false }],
+    "prefer-object-spread": 0,
+    //es6 enviroment
+    "no-const-assign": 2,
+    "prefer-const": ["error", { "destructuring": "all" }],
+    "prefer-template": 2,
+    "prefer-arrow-callback": 2,
+    "require-jsdoc": ["error", {
+      "require": {
+        "FunctionDeclaration": false,
+        "MethodDefinition": false,
+        "ClassDeclaration": false,
+        "ArrowFunctionExpression": false
+      }
+    }],
+    //react rules
+    "react/jsx-no-duplicate-props": 1,
+    "react/jsx-no-undef": 1,
+    "react/prop-types": 1,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 1,
+    "react/jsx-wrap-multilines": 2,
+    //"react/jsx-quotes": 0,
+    //"jsx-quotes": [2, "prefer-double"],
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-fragments": 2,
+    "react/static-property-placement": 0,
+    "react/destructuring-assignment": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "react/button-has-type": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react/state-in-constructor": 0,
+    "react/no-access-state-in-setstate": 0,
+    "react/sort-comp": [1, {
+      "order": [
+        "static-variables",
+        "static-methods",
+        "lifecycle",
+        "everything-else",
+        "render"
+      ],
+      "groups": {
+        "lifecycle": [
+          "displayName",
+          "propTypes",
+          "statics",
+          "defaultProps",
+          "constructor",
+          "getDefaultProps",
+          "state",
+          "componentWillMount",
+          "componentDidMount",
+          "componentWillReceiveProps",
+          "shouldComponentUpdate",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "componentDidCatch",
+          "componentWillUnmount"
+        ]
+      }
+    }]
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": [
+        ["Components", "./src/components"],
+        ["ComponentsUI", "./src/components-ui"],
+        ["Fragments", "./layouts/fragments"],
+        ["Models", "./layouts/models"],
+        ["Hooks", "./src/hooks"],
+        ["Utils", "./src/utils"]
+      ]
+    }
+  }
+}

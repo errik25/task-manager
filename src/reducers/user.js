@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -6,13 +6,13 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
-} from "../actions/UserActions";
+} from '../actions/UserActions';
 
 const initialState = {
-  login: "Аноним",
+  login: 'Аноним',
   isLogged: false,
   error: null,
-  isFetching: false
+  isFetching: false,
 };
 
 export function userReducer(state = initialState, action) {
@@ -21,7 +21,7 @@ export function userReducer(state = initialState, action) {
       return { ...state, isFetching: true };
 
     case LOGIN_SUCCESS:
-      localStorage.setItem("token", action.payload.data.token);
+      localStorage.setItem('token', action.payload.data.token);
       return {
         ...state,
         error: null,
@@ -33,7 +33,7 @@ export function userReducer(state = initialState, action) {
         surname: action.payload.data.surname,
         middlename: action.payload.data.middlename,
         manager: action.payload.data.manager,
-        executors: action.payload.data.executors
+        executors: action.payload.data.executors,
       };
 
     case LOGIN_FAILURE:
@@ -41,14 +41,14 @@ export function userReducer(state = initialState, action) {
       return {
         ...state,
         error: action.payload,
-        isFetching: false
+        isFetching: false,
       };
 
     case LOGOUT_REQUEST:
       return { ...state, isFetching: true };
 
     case LOGOUT_SUCCESS:
-      localStorage.setItem("token", action.payload.data);
+      localStorage.setItem('token', action.payload.data);
       return {
         ...state,
         isLogged: false,
@@ -59,14 +59,14 @@ export function userReducer(state = initialState, action) {
         middlename: null,
         manager: null,
         executors: null,
-        isFetching: false
+        isFetching: false,
       };
 
     case LOGOUT_FAILURE:
       return {
         ...state,
         isFetching: false,
-        isLogged: false
+        isLogged: false,
       };
 
     default:

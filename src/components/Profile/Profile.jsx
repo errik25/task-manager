@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import "./Profile.css";
-import { connect } from "react-redux";
-import { getUserData, logout } from "../../actions/UserActions";
-import WithAuth from "../WithAuth";
+import React, { useEffect } from 'react';
+import './Profile.css';
+import { connect } from 'react-redux';
+import { getUserData, logout } from '../../actions/UserActions';
+import WithAuth from '../WithAuth';
 
 function Profile(props) {
-
   return (
-    <div className={"Profile"}>
+    <div className="Profile">
       <div>
         <div>login - {props.user.login}</div>
         <div>firstName - {props.user.name}</div>
@@ -24,16 +23,12 @@ function Profile(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => dispatch(logout()),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logout()),
+});
 
-const mapStateToProps = (store) => {
-  return {
-    user: store.user,
-  };
-};
+const mapStateToProps = store => ({
+  user: store.user,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WithAuth(Profile));

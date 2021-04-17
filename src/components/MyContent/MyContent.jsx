@@ -1,23 +1,23 @@
-import React from "react";
-import moment from "moment";
-import Task from "../Task/Task";
-import "./MyContent.css";
-import WithAuth from "../WithAuth";
-import { connect } from "react-redux";
-import { openTask, getTodoData, removeItem } from "../../actions/TasksActions";
-import { Button, Card, CardContent, TextField } from "@material-ui/core";
-import TaskEdit from "../TaskEdit/TaskEdit";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
+import React from 'react';
+import moment from 'moment';
+import './MyContent.css';
+import { connect } from 'react-redux';
+import { Button, Card, CardContent, TextField } from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import TaskEdit from '../TaskEdit/TaskEdit';
+import { openTask, getTodoData, removeItem } from '../../actions/TasksActions';
+import WithAuth from '../WithAuth';
+import Task from '../Task/Task';
 
 class MyContent extends React.Component {
   constructor() {
     super();
     this.state = {
       time: new Date().toString(),
-      sortBy: "updatedAt",
+      sortBy: 'updatedAt',
     };
   }
 
@@ -25,24 +25,24 @@ class MyContent extends React.Component {
     this.props.getTodoData();
   }
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     const newState = {};
-    newState[event.target.name] = event.target.value || "";
+    newState[event.target.name] = event.target.value || '';
     this.setState(newState);
   };
 
   sortTasks = (a, b) => {
     switch (this.state.sortBy) {
-      case "updatedAt":
+      case 'updatedAt':
         return (
           new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         );
-      case "competionDate":
+      case 'competionDate':
         return (
           new Date(b.completionDate).getTime() -
           new Date(a.completionDate).getTime()
         );
-      case "responsible":
+      case 'responsible':
         return b.responsible.localeCompare(a.responsible);
     }
   };
@@ -50,55 +50,51 @@ class MyContent extends React.Component {
   render() {
     const { tasks, removeItem, checkItem, openTask } = this.props;
 
-    const taskLayout = (list) => {
-      return list.map((item) => {
-        return (
-          <Task
-            key={item.id}
-            item={item}
-            editButtonHandler={() => {
-              openTask(item);
-            }}
-            removeButtonHandler={() => {
-              removeItem(item.id);
-            }}
-          />
-        );
-      });
-    };
+    const taskLayout = list => list.map(item => (
+      <Task
+        key={item.id}
+        item={item}
+        editButtonHandler={() => {
+          openTask(item);
+        }}
+        removeButtonHandler={() => {
+          removeItem(item.id);
+        }}
+      />
+    ));
 
     let sortedList = tasks.slice();
     sortedList = sortedList.sort(this.sortTasks);
-    let sortedTasks = taskLayout(sortedList);
+    const sortedTasks = taskLayout(sortedList);
 
-    let overdueTask = sortedList.filter((item) => {
-      const daysDiff = moment(item.completionDate).diff(moment(), "days");
+    let overdueTask = sortedList.filter(item => {
+      const daysDiff = moment(item.completionDate).diff(moment(), 'days');
       return daysDiff < 0;
     });
     overdueTask = taskLayout(overdueTask);
 
-    let tasksForToday = sortedList.filter((item) => {
-      const daysDiff = moment(item.completionDate).diff(moment(), "days");
+    let tasksForToday = sortedList.filter(item => {
+      const daysDiff = moment(item.completionDate).diff(moment(), 'days');
       return daysDiff === 0;
     });
     tasksForToday = taskLayout(tasksForToday);
 
-    let tasksForWeek = sortedList.filter((item) => {
-      const daysDiff = moment(item.completionDate).diff(moment(), "days");
+    let tasksForWeek = sortedList.filter(item => {
+      const daysDiff = moment(item.completionDate).diff(moment(), 'days');
       return daysDiff > 0 && daysDiff < 7;
     });
     tasksForWeek = taskLayout(tasksForWeek);
 
-    let restTasks = sortedList.filter((item) => {
-      const daysDiff = moment(item.completionDate).diff(moment(), "days");
+    let restTasks = sortedList.filter(item => {
+      const daysDiff = moment(item.completionDate).diff(moment(), 'days');
       return daysDiff > 7;
     });
     restTasks = taskLayout(restTasks);
 
     return (
-      <div className={"MyContent"}>
-        <div className={"MyContent__container"}>
-          <div className={"MyContent__tools"}>
+      <div className="MyContent">
+        <div className="MyContent__container">
+          <div className="MyContent__tools">
             <Button
               variant="contained"
               color="primary"
@@ -117,36 +113,36 @@ class MyContent extends React.Component {
                 value={this.state.sortBy}
                 onChange={this.handleInputChange}
               >
-                <MenuItem value={"updatedAt"}>modified date</MenuItem>
-                <MenuItem value={"completionDate"}>completion date</MenuItem>
-                <MenuItem value={"responsible"}>responsible</MenuItem>
+                <MenuItem value="updatedAt">modified date</MenuItem>
+                <MenuItem value="completionDate">completion date</MenuItem>
+                <MenuItem value="responsible">responsible</MenuItem>
               </Select>
             </FormControl>
           </div>
           {tasks.length === 0 ? (
-            "loading..."
+            'loading...'
           ) : (
-            <React.Fragment>
-              {this.state.sortBy === "completionDate" ? (
-                <div className={"MyContent__groups"}>
+            <>
+              {this.state.sortBy === 'completionDate' ? (
+                <div className="MyContent__groups">
                   overdue
-                  <div className={"MyContent__tasks"}>{overdueTask}</div>
+                  <div className="MyContent__tasks">{overdueTask}</div>
                   for today
-                  <div className={"MyContent__tasks"}>{tasksForToday}</div>
+                  <div className="MyContent__tasks">{tasksForToday}</div>
                   for the week
-                  <div className={"MyContent__tasks"}>{tasksForWeek}</div>
+                  <div className="MyContent__tasks">{tasksForWeek}</div>
                   rest
-                  <div className={"MyContent__tasks"}>{restTasks}</div>
+                  <div className="MyContent__tasks">{restTasks}</div>
                 </div>
               ) : (
-                <div className={"MyContent__tasks"}>{sortedTasks}</div>
+                <div className="MyContent__tasks">{sortedTasks}</div>
               )}
               {this.props.openedTask && (
                 <div className="MyContent__popupTint">
                   <TaskEdit />
                 </div>
               )}
-            </React.Fragment>
+            </>
           )}
         </div>
       </div>
@@ -154,22 +150,18 @@ class MyContent extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    removeItem: (id) => dispatch(removeItem(id)),
-    getTodoData: () => dispatch(getTodoData()),
-    openTask: (pressedItem) => dispatch(openTask(pressedItem)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  removeItem: id => dispatch(removeItem(id)),
+  getTodoData: () => dispatch(getTodoData()),
+  openTask: pressedItem => dispatch(openTask(pressedItem)),
+});
 
-const mapStateToProps = (store) => {
-  return {
-    tasks: store.tasks.list,
-    openedTask: store.tasks.openedTask,
-  };
-};
+const mapStateToProps = store => ({
+  tasks: store.tasks.list,
+  openedTask: store.tasks.openedTask,
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(WithAuth(MyContent));

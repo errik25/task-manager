@@ -1,10 +1,9 @@
-import React from "react";
-import "./Task.css";
-import CircleChecked from "../../images/circleChecked";
-import Circle from "../../images/circle";
-import Bin from "../../images/bin";
-import { Checkbox } from "@material-ui/core";
-import { Button, Card, CardContent } from "@material-ui/core";
+import React from 'react';
+import './Task.css';
+import { Checkbox, Button, Card, CardContent } from '@material-ui/core';
+import CircleChecked from '../../images/circleChecked';
+import Circle from '../../images/circle';
+import Bin from '../../images/bin';
 
 export default class Task extends React.Component {
   render() {
@@ -17,7 +16,7 @@ export default class Task extends React.Component {
     } = this.props.item;
     return (
       <div
-        className={"Task"}
+        className="Task"
         onClick={() => {
           this.props.editButtonHandler();
         }}
@@ -26,9 +25,9 @@ export default class Task extends React.Component {
           <CardContent
             className={`Task__card ${
               new Date(completionDate).getTime() < new Date().getTime() && status !== 'done'
-                ? "Task__card_overdue"
-                : ""
-            }  ${status === "done" ? "Task__card_completed" : ""}   `}
+                ? 'Task__card_overdue'
+                : ''
+            }  ${status === 'done' ? 'Task__card_completed' : ''}   `}
           >
             <div className="Task__container">
               <div className="Task__title">{title}</div>
